@@ -1,0 +1,5 @@
+*.csv
+*.vec
+*.pkl
+s2ss*
+checkpoint

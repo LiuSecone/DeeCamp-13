@@ -27,7 +27,7 @@ def read_vector(path='wiki.zh.vec', output_path='word_vec.pkl'):
         ...
     }
     """
-    fp = open(path, 'r')
+    fp = open(path, 'r',encoding='utf-8')
     word_vec = {}
     first_skip = False
     dim = None

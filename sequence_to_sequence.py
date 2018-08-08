@@ -859,7 +859,6 @@ class SequenceToSequence(object):
 
     def load(self, sess, save_path='model.ckpt'):
         """读取模型"""
-        print('try load model from', save_path)
         self.saver.restore(sess, save_path)
 
 
