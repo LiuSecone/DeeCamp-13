@@ -78,7 +78,8 @@ def test(bidirectional, cell_type, depth,
 
             # print(sess.run(model.input_layer.kernel))
             # exit(1)
-
+            # batch_flow似乎是把问答转化为同一个list的同时，进行了padding，之后提供了一个generater来返回下一个问答
+            # threadedgenerator似乎将上面的这个序列转化为多个进程
             flow = ThreadedGenerator(
                 batch_flow([x_data, y_data], ws, batch_size),
                 queue_maxsize=30)

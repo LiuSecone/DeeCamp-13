@@ -1014,6 +1014,7 @@ class SequenceToSequence(object):
 
         if loss_only:
             # 输出
+            # （702行）self.loss=tf.contrib.seq2swq.sequence_loss(参数略)
             return sess.run(self.loss, input_feed)
 
         if add_loss is not None:
@@ -1022,6 +1023,10 @@ class SequenceToSequence(object):
                 self.updates_add, self.loss_add,
                 self.current_learning_rate]
             _, cost, lr = sess.run(output_feed, input_feed)
+            #output_feed由三部分计算组成
+            #1.tf.train.AdamOptimizer.apply_gradients更新斜率
+            #2.tf.contrib.seq2seq.sequence_loss+self.add_loss计算损失函数
+            #3.tf.train.polynomial_decay计算学习率
 
             if return_lr:
                 return cost, lr
