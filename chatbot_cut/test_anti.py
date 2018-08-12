@@ -5,7 +5,7 @@
 import sys
 import random
 import pickle
-
+import os
 import numpy as np
 import tensorflow as tf
 import jieba
@@ -112,15 +112,16 @@ def chatbot_port(user_text, bidirectional=True, cell_type='lstm', depth=2,
     random.seed(0)
     np.random.seed(0)
     tf.set_random_seed(0)
+    print(os.getcwd())
     from sequence_to_sequence import SequenceToSequence
     from data_utils import batch_flow
-    x_data, _, ws = pickle.load(open('chatbot.pkl', 'rb'))
+    x_data, _, ws = pickle.load(open('chatbot_cut/chatbot.pkl', 'rb'))
     config = tf.ConfigProto(
         device_count={'CPU': 1, 'GPU': 0},
         allow_soft_placement=True,
         log_device_placement=False
     )
-    save_path = './s2ss_chatbot_anti.ckpt'
+    save_path = 'chatbot_cut/s2ss_chatbot_anti.ckpt'
     tf.reset_default_graph()
     model_pred = SequenceToSequence(
         input_vocab_size=len(ws),

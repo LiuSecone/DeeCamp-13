@@ -340,7 +340,7 @@ class SequenceToSequence(object):
             'encoder 和 decoder 至少得输入一个吧大佬！'
 
         if encoder is not None:
-            sess.run(self.encoder_embeddings_init,
+            sess.run(self.encoder_embeddings_init,#为emb
                      {self.encoder_embeddings_placeholder: encoder})
 
         if decoder is not None:
@@ -387,6 +387,7 @@ class SequenceToSequence(object):
                     )
 
             # embedded之后的输入 shape = (batch_size, time_step, embedding_size)
+            # 下面这个函数用于在索引（param）中找到张量（ids）中的元素对应的元素
             self.encoder_inputs_embedded = tf.nn.embedding_lookup(
                 params=self.encoder_embeddings,
                 ids=self.encoder_inputs
