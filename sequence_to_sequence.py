@@ -649,7 +649,7 @@ class SequenceToSequence(object):
                     swap_memory=True,
                     scope=decoder_scope
                 )
-
+                print(outputs)
                 # More efficient to do the projection
                 # on the batch-time-concatenated tensor
                 # logits_train:
@@ -1092,7 +1092,7 @@ class SequenceToSequence(object):
                                       encoder_inputs_length, None, None, True)
 
         input_feed[self.keep_prob_placeholder.name] = 1.0
-
+        print(self.use_beamsearch_decode)
         # Attention 输出
         if attention:
 
@@ -1107,14 +1107,26 @@ class SequenceToSequence(object):
             return pred, atten
 
         # BeamSearch 模式输出
+        # pred是beam_size个回答的词语序号
+        # beam_prob是beam_size个回答的可能性
         if self.use_beamsearch_decode:
             pred, beam_prob = sess.run([
                 self.decoder_pred_decode, self.beam_prob
             ], input_feed)
             beam_prob = np.mean(beam_prob, axis=1)
-
             pred = pred[0]
-            return pred
+            beam_prob=beam_prob[0]
+            best=0
+            bestprob=-99999999.0
+            for i in range(0,16):
+                len=0
+                while(len<pred[i].shape[0] and pred[i][len]!=3):
+                    len+=1
+                if(beam_prob[i]-len*0.2>bestprob):
+                    best=i
+                    bestprob=beam_prob[i]
+
+            return pred[best]
 
             # ret = []
             # for i in range(encoder_inputs.shape[0]):

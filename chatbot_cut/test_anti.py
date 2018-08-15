@@ -43,7 +43,7 @@ def test(bidirectional, cell_type, depth,
         target_vocab_size=len(ws),
         batch_size=1,
         mode='decode',
-        beam_width=0,
+        beam_width=16,
         bidirectional=bidirectional,
         cell_type=cell_type,
         depth=depth,
@@ -76,9 +76,8 @@ def test(bidirectional, cell_type, depth,
                         np.array(x),
                         np.array(xl)
                     )
-                    for p in pred:
-                        ans = ws.inverse_transform(p)
-                        print(ans,file=g)
+                    ans = ws.inverse_transform(pred)
+                    print(ans,file=g)
         while True:
             user_text = input('Input Chat Sentence:')
             if user_text in ('exit', 'quit'):
@@ -103,9 +102,8 @@ def test(bidirectional, cell_type, depth,
             print(ws.inverse_transform(x[0]))
             # print(ws.inverse_transform(pred[0]))
             # print(pred.shape, prob.shape)
-            for p in pred:
-                ans = ws.inverse_transform(p)
-                print(ans)
+            ans = ws.inverse_transform(pred)
+            print(ans)
 
 def chatbot_port(user_text, bidirectional=True, cell_type='lstm', depth=2,
          attention_type='Bahdanau', use_residual=False, use_dropout=False, time_major=False, hidden_units=512):
@@ -128,7 +126,7 @@ def chatbot_port(user_text, bidirectional=True, cell_type='lstm', depth=2,
         target_vocab_size=len(ws),
         batch_size=1,
         mode='decode',
-        beam_width=0,
+        beam_width=16,
         bidirectional=bidirectional,
         cell_type=cell_type,
         depth=depth,

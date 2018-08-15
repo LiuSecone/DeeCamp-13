@@ -9,10 +9,11 @@ import pickle
 import numpy as np
 import tensorflow as tf
 from tqdm import tqdm
+
 # from sklearn.utils import shuffle
 
 sys.path.append('..')
-
+gpu_id=[0,1]
 
 def test(bidirectional, cell_type, depth,
          attention_type, use_residual, use_dropout, time_major, hidden_units):
@@ -20,9 +21,9 @@ def test(bidirectional, cell_type, depth,
 
     from sequence_to_sequence import SequenceToSequence
     from data_utils import batch_flow_bucket as batch_flow
-    from word_sequence import WordSequence # pylint: disable=unused-variable
+    from word_sequence import WordSequence  # pylint: disable=unused-variable
     from threadedgenerator import ThreadedGenerator
-
+    #emb是词的序号到词的embedding的映射
     emb = pickle.load(open('emb.pkl', 'rb'))
 
     x_data, y_data, ws = pickle.load(
@@ -95,12 +96,10 @@ def test(bidirectional, cell_type, depth,
                 for _ in bar:
                     x, xl, y, yl = next(flow)
                     x = np.flip(x, axis=1)
-
                     add_loss = model.train(sess,
                                            dummy_encoder_inputs,
                                            dummy_encoder_inputs_lengths,
                                            y, yl, loss_only=True)
-
                     add_loss *= -0.5
                     # print(x, y)
                     cost, lr = model.train(sess, x, xl, y, yl,
@@ -123,7 +122,7 @@ def test(bidirectional, cell_type, depth,
         target_vocab_size=len(ws),
         batch_size=1,
         mode='decode',
-        beam_width=12,
+        beam_width=16,
         bidirectional=bidirectional,
         cell_type=cell_type,
         depth=depth,
@@ -166,7 +165,7 @@ def test(bidirectional, cell_type, depth,
         target_vocab_size=len(ws),
         batch_size=1,
         mode='decode',
-        beam_width=1,
+        beam_width=16,
         bidirectional=bidirectional,
         cell_type=cell_type,
         depth=depth,
