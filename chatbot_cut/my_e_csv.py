@@ -1,10 +1,11 @@
+# encoding=utf-8
 import re
 import sys
 import pickle
 import csv
 import numpy as np
 from tqdm import tqdm
-
+import os
 sys.path.append('..')
 
 def main(limit=20, x_limit=3, y_limit=6):
@@ -18,18 +19,18 @@ def main(limit=20, x_limit=3, y_limit=6):
     word_vec = pickle.load(open('word_vec.pkl', 'rb'))
 
     print('extract lines')
-    fp = open('zhihu.csv', 'r', errors='ignore',encoding='utf-8')
+    fp = open('zhihu2.csv', 'r', errors='ignore',encoding='utf-8')
     x_data = []
     y_data = []
-    i=0
     for line in tqdm(fp):
-        #i+=1
-        #if(i>10000):
-        #    break
         line = line.replace('\n', '')
         x, y = line.split(',')
         x = x.split(' ')
         y = y.split(' ')
+        if len(x) < x_limit or len(x)>=limit:
+            continue
+        if len(y) < y_limit or len(y)>=limit:
+            continue
         x_data.append(x)
         y_data.append(y)
 
@@ -38,17 +39,6 @@ def main(limit=20, x_limit=3, y_limit=6):
         print(''.join(ask))
         print(''.join(answer))
         print('-' * 20)
-
-    data = list(zip(x_data, y_data))
-    data = [
-        (x, y)
-        for x, y in data
-        if len(x) < limit \
-        and len(y) < limit \
-        and len(y) >= y_limit \
-        and len(x) >= x_limit
-    ]
-    x_data, y_data = zip(*data)
 
     print('refine train data')
 
@@ -66,6 +56,7 @@ def main(limit=20, x_limit=3, y_limit=6):
         (x_data, y_data, ws_input),
         open('chatbot.pkl', 'wb')
     )
+    # print(ws_input.dict)
 
     print('make embedding vecs')
 

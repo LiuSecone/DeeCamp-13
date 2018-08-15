@@ -1,3 +1,4 @@
+# encoding=utf-8
 """
 WordSequence类
 
@@ -7,7 +8,8 @@ WordSequence类
 
 
 import numpy as np
-
+import os
+import pickle
 
 class WordSequence(object):
     """一个可以把句子编码化（index）的类
@@ -26,13 +28,19 @@ class WordSequence(object):
     def __init__(self):
         """初始化基本的dict
         """
-        self.dict = {
-            WordSequence.PAD_TAG: WordSequence.PAD,
-            WordSequence.UNK_TAG: WordSequence.UNK,
-            WordSequence.START_TAG: WordSequence.START,
-            WordSequence.END_TAG: WordSequence.END,
-        }
+        if os.path.exists('dict.txt'):
+            f = open('dict.txt', 'rb')
+            self.dict = pickle.load(f)
+            f.close()
+        else:
+            self.dict = {
+                WordSequence.PAD_TAG: WordSequence.PAD,
+                WordSequence.UNK_TAG: WordSequence.UNK,
+                WordSequence.START_TAG: WordSequence.START,
+                WordSequence.END_TAG: WordSequence.END,
+            }
         self.fited = False
+
 
 
     def to_index(self, word):
@@ -66,7 +74,7 @@ class WordSequence(object):
         return self.size()
 
 
-    def fit(self, sentences, min_count=5, max_count=None, max_features=None):
+    def fit(self, sentences, min_count=3, max_count=None, max_features=None):
         """训练 WordSequence
         Args:
             min_count 最小出现次数
@@ -92,23 +100,34 @@ class WordSequence(object):
         if max_count is not None:
             count = {k: v for k, v in count.items() if v <= max_count}
 
-        self.dict = {
-            WordSequence.PAD_TAG: WordSequence.PAD,
-            WordSequence.UNK_TAG: WordSequence.UNK,
-            WordSequence.START_TAG: WordSequence.START,
-            WordSequence.END_TAG: WordSequence.END,
-        }
+        print('word len',len(count))
+
+        # self.dict = {
+        #     WordSequence.PAD_TAG: WordSequence.PAD,
+        #     WordSequence.UNK_TAG: WordSequence.UNK,
+        #     WordSequence.START_TAG: WordSequence.START,
+        #     WordSequence.END_TAG: WordSequence.END,
+        # }
 
         if isinstance(max_features, int):
             count = sorted(list(count.items()), key=lambda x: x[1])
+            # 增量建词典这里其实是有点问题的，总词数超过max_features需要排掉出现次数最少的那些词
+            # 增量建没有统计全部的词频，但应该不会到10w个词那么多
             if max_features is not None and len(count) > max_features:
                 count = count[-int(max_features):]
             for w, _ in count:
+                if w in self.dict:
+                    continue
                 self.dict[w] = len(self.dict)
         else:
             for w in sorted(count.keys()):
+                if w in self.dict:
+                    continue
                 self.dict[w] = len(self.dict)
 
+        f = open('dict.txt', 'wb')
+        pickle.dump(self.dict, f)
+        f.close()
         self.fited = True
 
 
@@ -166,7 +185,7 @@ def test():
     ws.fit([
         ['第', '一', '句', '话'],
         ['第', '二', '句', '话']
-    ])
+    ],min_count=1)
 
     indice = ws.transform(['第', '三'])
     print(indice)
