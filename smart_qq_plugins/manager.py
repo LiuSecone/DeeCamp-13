@@ -11,7 +11,6 @@ from smart_qq_bot.signals import on_all_message, on_bot_inited, on_private_messa
 from chatbot_cut.test_anti import  chatbot_port
 import urllib
 import sys
-from googletrans import Translator
 sys.path.append('../chatbot_cut/')
 cmd_hello = re.compile(r"!hello")
 cmd_hello2 = re.compile(r"智超")
@@ -39,15 +38,7 @@ def do_hello(text):
         return "大头沙皮!"
     if "智超" in text:
         return "优秀！"
-    if text[0]=='t':
-        translator = Translator()
-        reply_content = translator.translate(text[1:]).text
-        return reply_content
-    elif text[0]=='r':
-        translator = Translator()
-        reply_content = translator.translate(text[1:],dest='zh-cn').text
-        return reply_content
-    elif "智障机器人" in text:
+    if "智障机器人" in text:
         reply_content = "干嘛（‘·д·）"
         return reply_content
     elif len(text)>=2 and "!"==text[0] and "!"!=text[1] and text.find('|')!=-1 and len(text[1:text.find('|')])!=0:

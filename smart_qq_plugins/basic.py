@@ -10,7 +10,6 @@ from smart_qq_bot.signals import (
 from chatbot_cut.test_anti import  chatbot_port
 import urllib
 import sys
-from googletrans import Translator
 sys.path.append('../chatbot_cut/')
 # =====唤出插件=====
 # 机器人连续回复相同消息时可能会出现
@@ -26,17 +25,7 @@ REPLY_SUFFIX = (
 dict={}
 @on_all_message(name='basic[callout]')
 def callout(msg, bot):
-    if msg.content[0]=='t':
-        reply = bot.reply_msg(msg, return_function=True)
-        translator = Translator()
-        reply_content = translator.translate(msg.content[1:]).text
-        reply(reply_content)
-    elif msg.content[0]=='r':
-        reply = bot.reply_msg(msg, return_function=True)
-        translator = Translator()
-        reply_content = translator.translate(msg.content[1:],dest='zh-cn').text
-        reply(reply_content)
-    elif "智障机器人" in msg.content:
+    if "智障机器人" in msg.content:
         reply = bot.reply_msg(msg, return_function=True)
         logger.info("RUNTIMELOG " + str(msg.from_uin) + " calling me out, trying to reply....")
         reply_content = "干嘛（‘·д·）" + random.choice(REPLY_SUFFIX)

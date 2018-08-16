@@ -154,7 +154,7 @@ def test(bidirectional, cell_type, depth,
             )
             print(ws.inverse_transform(x[0]))
             print(ws.inverse_transform(y[0]))
-            print(ws.inverse_transform(pred[0]))
+            print(ws.inverse_transform(pred))
             t += 1
             if t >= 3:
                 break
@@ -196,7 +196,7 @@ def test(bidirectional, cell_type, depth,
             )
             print(ws.inverse_transform(x[0]))
             print(ws.inverse_transform(y[0]))
-            print(ws.inverse_transform(pred[0]))
+            print(ws.inverse_transform(pred))
             t += 1
             if t >= 3:
                 break
