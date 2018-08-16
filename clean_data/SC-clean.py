@@ -17,7 +17,6 @@ def load_stop_word(stop_word_path = 'stopword.txt'):
             line = line.strip()
             stop_word_list.append(line)
         stop_word_list = list(set(stop_word_list))
-        print(stop_word_list)
 
 synonym_dict = {}
 def load_self_dict(self_define_dict_path = 'dictionary.txt'):
@@ -116,17 +115,19 @@ def is_validate(sentence):
 
 def judge_length(sentence):
     """去除太长或太短的句子"""
-    if len(sentence)<4 or len(sentence)>20:
+    if len(sentence)<4:
         return False
     return True
 
 # 按行读取，可以处理大文件
-def clear_data(input_path='dialogue.tsv', output_cleaned_file='dialogue.csv'):
-    with open(input_path, 'r',encoding='utf-8') as in_file:
-        with open(output_cleaned_file, 'w',encoding='utf-8') as out_file:
+def clear_data(input_path='cleaned.csv', output_cleaned_file='zhihu.csv'):
+    with open(output_cleaned_file, 'w',encoding='utf-8') as out_file:
+        with open(input_path, 'r',encoding='utf-8') as in_file:
             for line in tqdm(in_file):
+                line = line.replace('\n', '')
+                line = ''.join(line.split(' '))
                 if is_validate(line):
-                    QA = line.split('\t')
+                    QA = line.split(',')
                     if len(QA) == 2:
                         Q = QA[0]
                         A = QA[1]
@@ -138,5 +139,5 @@ def clear_data(input_path='dialogue.tsv', output_cleaned_file='dialogue.csv'):
 
 if __name__ == '__main__':
     load_self_dict()
-    #load_stop_word()
+    load_stop_word()
     clear_data()
