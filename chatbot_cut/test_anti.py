@@ -43,7 +43,7 @@ def test(bidirectional, cell_type, depth,
         target_vocab_size=len(ws),
         batch_size=1,
         mode='decode',
-        beam_width=16,
+        beam_width=64,
         bidirectional=bidirectional,
         cell_type=cell_type,
         depth=depth,
@@ -70,6 +70,7 @@ def test(bidirectional, cell_type, depth,
                     x_test = [jieba.lcut(user_text.lower())]
                     bar = batch_flow([x_test], ws, 1)
                     x, xl = next(bar)
+                    print(x,xl,file=g)
                     x = np.flip(x, axis=1)
                     pred = model_pred.predict(
                         sess,
@@ -83,14 +84,9 @@ def test(bidirectional, cell_type, depth,
             if user_text in ('exit', 'quit'):
                 exit(0)
             x_test = [jieba.lcut(user_text.lower())]
-            # x_test = [word_tokenize(user_text)]
             bar = batch_flow([x_test], ws, 1)
             x, xl = next(bar)
             x = np.flip(x, axis=1)
-            # x = np.array([
-            #     list(reversed(xx))
-            #     for xx in x
-            # ])
             print(x, xl)
             pred = model_pred.predict(
                 sess,
@@ -105,12 +101,11 @@ def test(bidirectional, cell_type, depth,
             ans = ws.inverse_transform(pred)
             print(ans)
 
-def chatbot_port(user_text, bidirectional=True, cell_type='lstm', depth=2,
+def chatbot_port(user_text, bidirectional=True, num=0, cell_type='lstm', depth=2,
          attention_type='Bahdanau', use_residual=False, use_dropout=False, time_major=False, hidden_units=512):
     random.seed(0)
     np.random.seed(0)
     tf.set_random_seed(0)
-    print(os.getcwd())
     from sequence_to_sequence import SequenceToSequence
     from data_utils import batch_flow
     x_data, _, ws = pickle.load(open('chatbot_cut/chatbot.pkl', 'rb'))
@@ -126,7 +121,7 @@ def chatbot_port(user_text, bidirectional=True, cell_type='lstm', depth=2,
         target_vocab_size=len(ws),
         batch_size=1,
         mode='decode',
-        beam_width=16,
+        beam_width=64,
         bidirectional=bidirectional,
         cell_type=cell_type,
         depth=depth,
@@ -144,15 +139,18 @@ def chatbot_port(user_text, bidirectional=True, cell_type='lstm', depth=2,
         sess.run(init)
         model_pred.load(sess, save_path)
         x_test = [jieba.lcut(user_text.lower())]
+        print(user_text)
         bar = batch_flow([x_test], ws, 1)
         x, xl = next(bar)
+        print(x,xl)
         x = np.flip(x, axis=1)
         pred = model_pred.predict(
             sess,
             np.array(x),
             np.array(xl)
         )
-        return ''.join(ws.inverse_transform(pred[0]))
+        print(pred)
+        return ''.join(ws.inverse_transform(pred))
 
 def main():
     """入口程序，开始测试不同参数组合"""
