@@ -7,9 +7,10 @@ from smart_qq_bot.signals import (
     on_private_message,
     on_discuss_message,
 )
-from chatbot_cut.test_anti import  chatbot_port
+from chatbot_cut.test_port import  chatbot_port
 import urllib
 import sys
+import time
 sys.path.append('../chatbot_cut/')
 # =====唤出插件=====
 # 机器人连续回复相同消息时可能会出现
@@ -23,6 +24,9 @@ REPLY_SUFFIX = (
 )
 
 dict={}
+global cbot
+cbot=chatbot_port()
+print(cbot.hidden_units)
 @on_all_message(name='basic[callout]')
 def callout(msg, bot):
     if "智障机器人" in msg.content:
@@ -43,22 +47,23 @@ def callout(msg, bot):
                 reply(dict[term])
                 return
         if("!"==msg.content[0]):
-            print("===========-------------=")
-            #这一部分原来是调用网页api来自动回复，现在改为调用训练的机器人
-            #url_str = "http://api.qingyunke.com/api.php?key=free&appid=0&msg={key}".format(
-            #    key=urllib.parse.quote(msg.content[1:])
-            #)
-            #page = urllib.request.urlopen(url_str)
-            #html = page.read()
-            #html=html.decode('utf-8')
-            #tmp=html.find("}")
-            #while(html[tmp+1:].find("}")!=-1):
-            #    tmp+= html[tmp+1:].find("}")+1
-            #st=html[html.find("content")+10:tmp-1]
-            st=chatbot_port(user_text=msg.content[1:])
-            print(st)
+            print("===========-------------=")#test
+            with open('qq_intput.txt', 'w', encoding='utf-8') as f:
+                print(msg.content[1:],file=f)
+                print('1')
+            time.sleep(3)
+            flag=1
+            while flag==1:
+                with open('qq_intput.txt', 'r', encoding='utf-8') as f:
+                    st=f.read()
+                    if(st[0]=='%'):
+                        flag=0
+                        print('4')
+                    st=st[1:].strip()
+                time.sleep(0.1)
             reply = bot.reply_msg(msg, return_function=True)
             reply(st)
+            return
 
 
 

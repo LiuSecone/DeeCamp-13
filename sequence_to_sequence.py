@@ -41,7 +41,7 @@ from tensorflow.contrib.rnn import ResidualWrapper
 
 from word_sequence import WordSequence
 from data_utils import _get_embed_device
-
+import os
 
 class SequenceToSequence(object):
     """SequenceToSequence Model
@@ -860,6 +860,7 @@ class SequenceToSequence(object):
 
     def load(self, sess, save_path='model.ckpt'):
         """读取模型"""
+        print(os.getcwd())
         self.saver.restore(sess, save_path)
 
 
@@ -1118,7 +1119,7 @@ class SequenceToSequence(object):
             beam_prob=beam_prob[0]
             best=0
             bestprob=-99999999.0
-            for i in range(0,64):
+            for i in range(0,16):
                 len=0
                 while(len<pred[i].shape[0] and pred[i][len]!=3):
                     len+=1
