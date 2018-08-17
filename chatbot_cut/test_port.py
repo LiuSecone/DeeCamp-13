@@ -39,7 +39,7 @@ class chatbot_port(object):
             target_vocab_size=len(self.ws),
             batch_size=1,
             mode='decode',
-            beam_width=16,
+            beam_width=64,
             bidirectional=self.bidirectional,
             cell_type=self.cell_type,
             depth=self.depth,

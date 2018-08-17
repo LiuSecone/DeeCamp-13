@@ -1119,7 +1119,7 @@ class SequenceToSequence(object):
             beam_prob=beam_prob[0]
             best=0
             bestprob=-99999999.0
-            for i in range(0,16):
+            for i in range(0,64):
                 len=0
                 while(len<pred[i].shape[0] and pred[i][len]!=3):
                     len+=1
