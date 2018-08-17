@@ -14,5 +14,5 @@ while(True):
         print('2')
         st=s.chat(st)
         with open('qq_intput.txt', 'w', encoding='utf-8') as f:
-            print('%',st,file=f)
+            print('%',st[:st.find('<')],file=f)
             print('3')
