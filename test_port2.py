@@ -11,7 +11,7 @@ while(True):
         st=st.strip()
         st=st[1:]
     time.sleep(0.1)
-    if st[0]!='%':
+    if len(st)>=1 and st[0]!='%':
         print('2')
         st=s.chat(st)
         with open('qq_intput.txt', 'w', encoding='utf-8') as f:
