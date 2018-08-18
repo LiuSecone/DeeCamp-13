@@ -8,7 +8,8 @@ while(True):
     st=''
     with open('qq_intput.txt', 'r', encoding='utf-8') as f:
         st=f.read()
-        st.strip()
+        st=st.strip()
+        st=st[1:]
     time.sleep(0.1)
     if st[0]!='%':
         print('2')
