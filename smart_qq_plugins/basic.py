@@ -7,7 +7,6 @@ from smart_qq_bot.signals import (
     on_private_message,
     on_discuss_message,
 )
-from chatbot_cut.test_port import  chatbot_port
 import urllib
 import sys
 import time
@@ -24,9 +23,6 @@ REPLY_SUFFIX = (
 )
 
 dict={}
-global cbot
-cbot=chatbot_port()
-print(cbot.hidden_units)
 @on_all_message(name='basic[callout]')
 def callout(msg, bot):
     if "智障机器人" in msg.content:
