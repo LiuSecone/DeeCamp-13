@@ -1,7 +1,7 @@
 from chatbot_cut.test_port import  chatbot_port
 from test_port import Chatbot_port2
 import time
-s=chatbot_port()
+#s=chatbot_port()
 t=Chatbot_port2()
 print("?????")
 type=1
