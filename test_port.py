@@ -1,6 +1,6 @@
 #encoding=utf-8
-from sentenceSimilarity import SentenceSimilarity
-from cutWords import *
+from tfidf.sentenceSimilarity import SentenceSimilarity
+from tfidf.cutWords import *
 class Chatbot_port2(object):
     def __init__(self):
         # 分词工具，基于jieba分词，并去除停用词

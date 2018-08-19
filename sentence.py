@@ -1,6 +1,6 @@
 #encoding=utf-8
 
-from cutWords import Seg
+from tfidf.cutWords import Seg
 
 class Sentence(object):
 

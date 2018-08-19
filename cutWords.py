@@ -1,8 +1,8 @@
 #encoding=utf-8
-
+import sys
 import jieba
 import codecs
-
+import os
 class Seg(object):
     stopwords = []
     synonym_dict = {}
@@ -14,6 +14,7 @@ class Seg(object):
         jieba.load_userdict('dataset/dictionary.txt')
 
     def read_in_stopword(self):#读入停用词
+        print(os.getcwd())
         file_obj = codecs.open(self.stopword_filepath,'r','utf-8')
         while True:
             line = file_obj.readline()

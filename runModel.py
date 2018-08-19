@@ -1,5 +1,5 @@
 # encoding=utf-8
-
+import os
 from cutWords import *
 from sentenceSimilarity import SentenceSimilarity
 train = True
@@ -9,7 +9,7 @@ if __name__ == '__main__':
         train_sentences = rf.readlines()
 
     # 读入测试集
-    with open('dataset/test_input.txt','r',encoding='utf-8') as rf:
+    with open('chatbot_cut/test_input.txt','r',encoding='utf-8') as rf:
         raw_test_sentences = rf.readlines()
     test_sentences = []
     for sen in raw_test_sentences:
@@ -31,8 +31,8 @@ if __name__ == '__main__':
 
     # 测试集
     right_count = 0
-
-    file_result = open('dataset/test_output.txt', 'w')
+    print(os.getcwd())
+    file_result = open('dataset/test_output.txt', 'w',encoding='utf-8')
 
     with open("dataset/answer.txt", 'r', encoding='utf-8') as file_answer:
         line = file_answer.readlines()

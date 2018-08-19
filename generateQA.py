@@ -23,7 +23,7 @@ def handleDataset(inputName,outputQuestion,outputAnswer):
                 i += 1
                 questions.write(qa[0].strip()+'\n')
                 answers.write(qa[1].strip()+'\n')
-                if i >300000:
+                if i >10000:
                     break
             line = rf.readline()
     questions.close()
@@ -31,7 +31,7 @@ def handleDataset(inputName,outputQuestion,outputAnswer):
 
 if __name__ == '__main__':
     load_sensitive_word()
-    inputName = 'dataset/zhihu.csv'
+    inputName = 'chatbot_cut/zhihu.csv'
     outputQuestion = 'dataset/question.txt'
     outputAnswer = 'dataset/answer.txt'
     handleDataset(inputName,outputQuestion,outputAnswer)
