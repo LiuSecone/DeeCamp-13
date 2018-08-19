@@ -1,12 +1,10 @@
 from chatbot_cut.test_port import  chatbot_port
-import sys
-import os
-from tfidf.test_port import Chatbot_port2
+from test_port import Chatbot_port2
 import time
 s=chatbot_port()
 t=Chatbot_port2()
 print("?????")
-type=0
+type=1
 while(True):
     st=''
     with open('qq_intput.txt', 'r', encoding='utf-8') as f:

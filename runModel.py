@@ -9,7 +9,7 @@ if __name__ == '__main__':
         train_sentences = rf.readlines()
 
     # 读入测试集
-    with open('chatbot_cut/test_input.txt','r',encoding='utf-8') as rf:
+    with open('dataset/test_input.txt','r',encoding='utf-8') as rf:
         raw_test_sentences = rf.readlines()
     test_sentences = []
     for sen in raw_test_sentences:
