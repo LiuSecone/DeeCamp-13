@@ -1,10 +1,10 @@
 from chatbot_cut.test_port import  chatbot_port
 import sys
 import os
-#from tfidf.test_port import chatbot_port2
+from tfidf.test_port import Chatbot_port2
 import time
 s=chatbot_port()
-#t=chatbot_port2()
+t=Chatbot_port2()
 print("?????")
 type=0
 while(True):
