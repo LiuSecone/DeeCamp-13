@@ -16,7 +16,9 @@ while(True):
         if type==0:
             st=s.chat(st[1:])
         else:
-            st=t.chat(st[1:])
+            st,num=t.chat(st[1:])
+            if num<0.9:
+                st=s.chat(st[1:])
         with open('qq_intput.txt', 'w', encoding='utf-8') as f:
             print('%',st[:st.find('<')],file=f)
             print('3')

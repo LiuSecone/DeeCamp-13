@@ -16,7 +16,7 @@ class Chatbot_port2(object):
 
         answer_index = top_10[0][0]
         answer = self.line[answer_index]
-        return answer
+        return answer,top_10[0][1]
 
 if __name__ == '__main__':
     chatbot = Chatbot_port2()
