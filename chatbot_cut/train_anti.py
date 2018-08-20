@@ -30,8 +30,8 @@ def test(bidirectional, cell_type, depth,
         open('chatbot.pkl', 'rb'))
 
     # 训练部分
-    n_epoch = 5
-    batch_size = 512
+    n_epoch = 20
+    batch_size =  512
     # x_data, y_data = shuffle(x_data, y_data, random_state=0)
     # x_data = x_data[:100000]
     # y_data = y_data[:100000]
@@ -44,6 +44,7 @@ def test(bidirectional, cell_type, depth,
     )
 
     save_path = './s2ss_chatbot_anti.ckpt'
+    saver = tf.train.Saver(max_to_keep=n_epoch)
 
     tf.reset_default_graph()
     with tf.Graph().as_default():
@@ -111,7 +112,7 @@ def test(bidirectional, cell_type, depth,
                         lr
                     ))
 
-                model.save(sess, save_path)
+                model.save(sess, save_path + '-' + str(epoch))
 
             flow.close()
 
