@@ -227,7 +227,7 @@ class SequenceToSequence(object):
         if self.mode == 'train':
             self.init_optimizer()
 
-        self.saver = tf.train.Saver()
+        self.saver = tf.train.Saver(max_to_keep=25)
 
 
     def init_placeholders(self):
