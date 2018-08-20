@@ -1125,7 +1125,7 @@ class SequenceToSequence(object):
                     len+=1
                 if(beam_prob[i]-len*0.3>bestprob):
                     best=i
-                    bestprob=beam_prob[i]
+                    bestprob=beam_prob[i]-len*0.3
 
             return pred[best]
 
