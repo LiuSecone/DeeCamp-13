@@ -80,17 +80,22 @@ def clean_str(string):
     string = HTMLParser().unescape(string)
     # 将字母统一转成小写
     string = string.lower()
-    string=string.replace(' ','')
+    # 去除重复的符号
+    string = clean_redundant(string, '？')
+    string = clean_redundant(string, '，')
+    string = clean_redundant(string, '……')
+    string = clean_redundant(string, '。')
     return string.strip()
 
 def seperate_line(line):
     """分词"""
     words = jieba.cut(line)
-    line = " ".join(words)
-    return line
+    return list(words)
 
 def is_validate(sentence):
     """判断句子是否可用"""
+    if len(sentence)<4 or len(sentence)>100:
+        return False
     """去除含有数字的句子 去除包含@的句子"""
     for c in sentence:
         if c.isdigit() or c is '@':
@@ -115,9 +120,18 @@ def is_validate(sentence):
 
 def judge_length(sentence):
     """去除太长或太短的句子"""
-    if len(sentence)<4:
+    if len(sentence)<1 or len(sentence)>20:
         return False
     return True
+
+def clean_redundant(sequence, char):
+    """去除重复的标点"""
+    sequence = sequence + ' '
+    sequence = sequence.split(char)
+    while '' in sequence:
+        sequence.remove('')
+    sequence = char.join(sequence)
+    return sequence[:-1]
 
 # 按行读取，可以处理大文件
 def clear_data(input_path='cleaned.csv', output_cleaned_file='zhihu.csv'):
@@ -125,16 +139,14 @@ def clear_data(input_path='cleaned.csv', output_cleaned_file='zhihu.csv'):
         with open(input_path, 'r',encoding='utf-8') as in_file:
             for line in tqdm(in_file):
                 line = line.replace('\n', '')
-                line = ''.join(line.split(' '))
+                line = line.replace(' ', '')
                 if is_validate(line):
                     QA = line.split(',')
                     if len(QA) == 2:
-                        Q = QA[0]
-                        A = QA[1]
+                        Q = seperate_line(clean_str(QA[0]))
+                        A = seperate_line(clean_str(QA[1]))
                         if judge_length(Q) and judge_length(A):
-                            Q = seperate_line(clean_str(Q))
-                            A = seperate_line(clean_str(A))
-                            QA = Q + ',' + A+'\n'
+                            QA = ' '.join(Q) + ',' + ' '.join(A)+'\n'
                             out_file.write(QA)
 
 if __name__ == '__main__':
