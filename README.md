@@ -7,8 +7,9 @@
 - 发送!+你想说的话（没有加号）给上面扫二维码的qq号
 - test_port2.py中的type==0时使用深度学习模型，type==1时使用检索模型
 ## 深度学习模型的使用
-- 参照本模型大部分代码来源</url>https://github.com/qhduan/just_another_seq2seq<url>做准备工作
+- 参照本模型大部分代码来源</url>https://github.com/qhduan/just_another_seq2seq<url>做词向量
 - 将清洗好的数据（文件名为zhihu.csv，格式为每一行为问句+','+答句）复制到chatbot_cut内
+- 运行chatbot_cut/my_e_csv.py读入数据
 - 运行chatbot_cut/train_anti.py训练模型
 - 运行chatbot_cut/test_anti.py测试模型
 - 测试的输入文件均位于chatbot_cut/test_input.txt,输出文件位于chatbot_cut/test_output.txt
